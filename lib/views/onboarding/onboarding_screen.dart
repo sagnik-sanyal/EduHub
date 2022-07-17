@@ -121,7 +121,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 Navigator.of(context)
-                                    .pushNamed(HomeWidget.route);
+                                    .pushReplacementNamed(HomeWidget.route);
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 await prefs.setBool('isSeen', true);
@@ -139,9 +139,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 textStyle: TextStyle(
                                     fontSize: (width <= 550) ? 13 : 17),
                               ),
-                              child:  Text(
+                              child: Text(
                                 "Get Started",
-                               maxLines: 1,
+                                maxLines: 1,
                                 style: TextStyle(
                                     fontFamily: "Nunito",
                                     fontWeight: FontWeight.bold,
