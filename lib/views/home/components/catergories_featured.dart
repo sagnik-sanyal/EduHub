@@ -46,15 +46,22 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
   static const List<Widget> goToScreens = <Widget>[
     BusinessCourseScreen(),
     DevelopmentCourseScreen(),
     DevelopmentCourseScreen(),
-    DevelopmentCourseScreen(),
-   
+    BusinessCourseScreen(),
   ];
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -84,6 +91,8 @@ class Body extends StatelessWidget {
         AnimationLimiter(
           child: GridView.count(
             scrollDirection: Axis.vertical,
+            physics: ClampingScrollPhysics(),
+            controller: _scrollController,
             crossAxisCount: 2,
             crossAxisSpacing: 20,
             childAspectRatio: 0.8,
@@ -104,7 +113,7 @@ class Body extends StatelessWidget {
                     child: FadeInAnimation(
                       child: CategoryCard(
                         category: categoryList[index],
-                        goTo: goToScreens[index],
+                        goTo: Body.goToScreens[index],
                       ),
                     ),
                   ),
@@ -115,6 +124,12 @@ class Body extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
 
@@ -130,6 +145,10 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        closedElevation: 4,
         closedBuilder: (context, action) => Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
